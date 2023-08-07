@@ -65,6 +65,34 @@ app.get('/api/properties', async (req, res) => {
 })
 
 
+app.get('/api/news/', async (req, res) => {
+    try {
+        const apiKey = process.env.NEXT_PUBLIC_RAPIDAPI_KEY;
+        const newsOptions = {
+            method: "GET",
+            url: "https://investing-cryptocurrency-markets.p.rapidapi.com/coins/get-news",
+            params: {
+                pair_ID: "1057391",
+                page: req.query.page,
+                time_utc_offset: "28800",
+                lang_ID: "1",
+            },
+            headers: {
+                "x-rapidapi-host": "investing-cryptocurrency-markets.p.rapidapi.com",
+                "x-rapidapi-key": apiKey,
+            },
+        }
+
+        const response = await axios.request(newsOptions)
+        res.status(200).json(response.data)
+    }
+    catch (error) {
+        console.error(error)
+        res.status(500).json({ error: 'Server Error' })
+    } 
+})
+
+
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`)
