@@ -95,12 +95,13 @@ app.get('/api/news/', async (req, res) => {
 
 app.get('/api/recipe', async (req, res) => {
     const { keyword, diet, exclude } = req.query;
+    const apiKey = process.env.SPOONACULAR_API
     try {
         const response = await axios.get(
           'https://api.spoonacular.com/recipes/complexSearch',
           {
             params: {
-              apiKey: process.env.SPOONACULAR_API,
+              apiKey: apiKey,
               query: keyword,
               diet: diet,
               excludeIngredients: exclude,
@@ -122,12 +123,13 @@ app.get('/api/recipe', async (req, res) => {
 
 app.get('/api/recipe-details/:recipeID', async (req, res) => {
     const { recipeID } = req.params
+    const apiKey = process.env.SPOONACULAR_API
     try {
         const response = await axios.get(
           `https://api.spoonacular.com/recipes/${recipeID}/information`,
           {
             params: {
-              apiKey: process.env.SPOONACULAR_API, // Replace with your API key
+              apiKey: apiKey, // Replace with your API key
             },
           }
         );
