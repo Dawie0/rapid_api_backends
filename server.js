@@ -19,7 +19,7 @@ app.get('/api/location', async (req, res) => {
         const apiKey = process.env.NEXT_PUBLIC_RAPIDAPI_KEY
         const locationOptions = {
             method: "GET",
-            url: "https://realty-in-us.p.rapidapi.com/locations/auto-complete",
+            url: "https://realty-in-us.p.rapidapi.com/locations/v2/auto-complete",
             params: { input: req.query.keyword },
             headers: {
                 "x-rapidapi-host": "realty-in-us.p.rapidapi.com",
