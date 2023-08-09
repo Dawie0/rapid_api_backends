@@ -93,6 +93,54 @@ app.get('/api/news/', async (req, res) => {
 })
 
 
+app.get('/api/recipe', async (req, res) => {
+    const { keyword, diet, exclude } = req.query;
+    try {
+        const response = await axios.get(
+          'https://api.spoonacular.com/recipes/complexSearch',
+          {
+            params: {
+              apiKey: process.env.SPOONACULAR_API,
+              query: keyword,
+              diet: diet,
+              excludeIngredients: exclude,
+              // You can add more query parameters as needed
+            },
+          }
+        );
+        res.json(response.data);
+    }
+
+    catch (error) {
+        console.error(error)
+        res.status(500).json({ error: 'Server Error' })
+    }
+
+})
+
+ 
+
+app.get('/api/recipe-details/:recipeID', async (req, res) => {
+    const { recipeID } = req.params
+    try {
+        const response = await axios.get(
+          `https://api.spoonacular.com/recipes/${recipeID}/information`,
+          {
+            params: {
+              apiKey: process.env.SPOONACULAR_API, // Replace with your API key
+            },
+          }
+        );
+
+        res.json(response.data)
+    }
+    catch (error) {
+        console.error(error)
+        res.status(500).json({ error: 'An error occurred' })
+    }
+})
+
+
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`)
