@@ -42,12 +42,11 @@ app.get('/api/properties', async (req, res) => {
             method: "GET",
             url: "https://realty-in-us.p.rapidapi.com/properties/v3/list",
             params: {
-                state_code: req.query.state_code,
-                city: req.query.city,
-                offset: "0",
                 limit: "20",
-                // sort: req.query.sort,
-                // beds_min: req.query.beds,
+                offset: "0",
+                search_location:{
+                    location: `${req.query.state_code}, ${req.query.city}`,
+                },
             },
             headers: {
                 "x-rapidapi-host": "realty-in-us.p.rapidapi.com",
