@@ -40,7 +40,7 @@ app.get('/api/properties', async (req, res) => {
         const apiKey = process.env.NEXT_PUBLIC_RAPIDAPI_KEY;
         const propertiesOptions = {
             method: "GET",
-            url: "https://realty-in-us.p.rapidapi.com/properties/v3/list-for-sale",
+            url: "https://realty-in-us.p.rapidapi.com/properties/v3/list",
             params: {
                 state_code: req.query.state_code,
                 city: req.query.city,
