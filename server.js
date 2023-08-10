@@ -35,18 +35,40 @@ app.get('/api/location', async (req, res) => {
     }
 })
 
-app.get('/api/properties', async (req, res) => {
+app.get('/api/get-location/:keyword', async (req, res) => {
+    try {
+        const { keyword } = req.params
+        const response = await axios.get(`https://nominatim.openstreetmap.org/search?q=${keyword}&format=json`)
+
+        res.status(200).json(response.data)
+    }
+    catch (error) {
+        console.error(error)
+        res.status(500).json({ error: 'Server Error' })
+    }
+})
+
+app.post('/api/properties', async (req, res) => {
     try {
         const apiKey = process.env.NEXT_PUBLIC_RAPIDAPI_KEY;
         const propertiesOptions = {
-            method: "GET",
+            method: "POST",
             url: "https://realty-in-us.p.rapidapi.com/properties/v3/list",
             params: {
                 limit: "20",
                 offset: "0",
-                search_location:{
-                    location: `${req.query.state_code}, ${req.query.city}`,
-                },
+                postal_code: '90004',
+                status: [
+                    'for_sale',
+                    'ready_to_build'
+                ],
+                sort: {
+                    direction: 'desc',
+                    field: 'list_date'
+                }
+                // search_location:{
+                //     location: `${req.query.state_code}, ${req.query.city}`,
+                // },
             },
             headers: {
                 "x-rapidapi-host": "realty-in-us.p.rapidapi.com",
